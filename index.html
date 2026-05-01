@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>ARCHOU.fr - MultiOutilsLikma</title>
+  <title>ARCHOU.eu - MultiOutilsLikma</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
@@ -33,6 +33,10 @@
       background: linear-gradient(135deg, #22c55e, #38bdf8);
       -webkit-background-clip: text;
       color: transparent;
+    }
+
+    h2, h3 {
+      margin-top: 0;
     }
 
     .input {
@@ -101,6 +105,7 @@
 
     .comments {
       margin-top: 20px;
+      margin-bottom: 16px;
     }
 
     .comment {
@@ -110,12 +115,25 @@
       border: 1px solid #374151;
       margin-bottom: 8px;
     }
+
+    .channel {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #020617;
+      border: 1px solid #374151;
+      font-size: 14px;
+    }
+
+    .channel p {
+      margin: 4px 0;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h1>ARCHOU.fr — Accès Privé</h1>
+    <h1>ARCHOU.eu — Accès Privé</h1>
 
     <input type="password" id="passwordInput" class="input" placeholder="Mot de passe">
     <button class="btn" id="loginBtn">Déverrouiller</button>
@@ -124,7 +142,7 @@
 
     <div id="privateContent">
       <h2>Lecteur vidéo ARCHOU</h2>
-      <p>Colle un lien de vidéo :</p>
+      <p>Colle un lien vidéo :</p>
 
       <input type="text" id="ytLink" class="input" placeholder="https://www.youtube.com/watch?v=XXXX">
       <button class="btn" id="loadVideoBtn">Charger la vidéo</button>
@@ -132,8 +150,12 @@
       <iframe id="ytPlayer" allowfullscreen></iframe>
 
       <div class="actions">
-        <button id="likeBtn" class="action-btn">👍 J'aime (<span id="likeCount">0</span>)</button>
-        <button id="subBtn" class="action-btn">🔔 S'abonner</button>
+        <button id="likeBtn" class="action-btn">
+          👍 J'aime (<span id="likeCount">0</span>)
+        </button>
+        <button id="subBtn" class="action-btn">
+          🔔 S'abonner
+        </button>
       </div>
 
       <div class="comments">
@@ -142,6 +164,12 @@
         <button class="btn" id="sendComment">Envoyer</button>
 
         <div id="commentList"></div>
+      </div>
+
+      <div class="channel">
+        <h3>Espace chaîne ARCHOU</h3>
+        <p>Abonnés : <strong><span id="subCount">0</span></strong></p>
+        <p>Commentaires postés : <strong><span id="commentCount">0</span></strong></p>
       </div>
     </div>
   </div>
@@ -175,43 +203,56 @@
       const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
 
       if (!match) {
-        alert("Lien YouTube invalide");
+        alert("Lien vidéo invalide");
         return;
       }
 
       const videoId = match[1];
-      ytPlayer.src = `https://www.youtube.com/embed/${videoId}`;
+      ytPlayer.src = `https://`;
       ytPlayer.style.display = "block";
     });
 
     // LIKE SYSTEM
-    let likes = localStorage.getItem("archou_likes") || 0;
-    document.getElementById("likeCount").textContent = likes;
+    let likes = parseInt(localStorage.getItem("archou_likes") || "0", 10);
+    const likeCountSpan = document.getElementById("likeCount");
+    likeCountSpan.textContent = likes;
 
     document.getElementById("likeBtn").addEventListener("click", () => {
       likes++;
       localStorage.setItem("archou_likes", likes);
-      document.getElementById("likeCount").textContent = likes;
+      likeCountSpan.textContent = likes;
     });
 
-    // SUBSCRIBE SYSTEM
-    let subscribed = localStorage.getItem("archou_sub") === "true";
+    // SUBSCRIBE SYSTEM (compteur + état local)
+    let subCount = parseInt(localStorage.getItem("archou_sub_count") || "0", 10);
+    let isSub = localStorage.getItem("archou_is_sub") === "true";
 
     const subBtn = document.getElementById("subBtn");
-    function updateSubBtn() {
-      subBtn.textContent = subscribed ? "✔️ Abonné" : "🔔 S'abonner";
+    const subCountSpan = document.getElementById("subCount");
+
+    function updateSubUI() {
+      subBtn.textContent = isSub ? "✔️ Abonné" : "🔔 S'abonner";
+      subCountSpan.textContent = subCount;
     }
-    updateSubBtn();
+    updateSubUI();
 
     subBtn.addEventListener("click", () => {
-      subscribed = !subscribed;
-      localStorage.setItem("archou_sub", subscribed);
-      updateSubBtn();
+      if (!isSub) {
+        isSub = true;
+        subCount++;
+      } else {
+        isSub = false;
+        if (subCount > 0) subCount--;
+      }
+      localStorage.setItem("archou_is_sub", isSub);
+      localStorage.setItem("archou_sub_count", subCount);
+      updateSubUI();
     });
 
     // COMMENTS SYSTEM
     const commentInput = document.getElementById("commentInput");
     const commentList = document.getElementById("commentList");
+    const commentCountSpan = document.getElementById("commentCount");
 
     function loadComments() {
       const comments = JSON.parse(localStorage.getItem("archou_comments") || "[]");
@@ -222,6 +263,7 @@
         div.textContent = c;
         commentList.appendChild(div);
       });
+      commentCountSpan.textContent = comments.length;
     }
 
     loadComments();
