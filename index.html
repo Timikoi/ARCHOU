@@ -1,125 +1,145 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHOU.fr</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
+  <meta charset="UTF-8" />
+  <title>ARCHOU.fr - MultiOutilsLikma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #0b0f19;
+      color: #e5e7eb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-        }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: #111827;
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid #1f2937;
+      box-shadow: 0 0 40px rgba(0,0,0,0.4);
+    }
 
-        main {
-            padding: 20px;
-            max-width: 600px;
-            margin: auto;
-            display: none; /* Cache par défaut */
-        }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #22c55e, #38bdf8);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
 
-        footer {
-            text-align: center;
-            padding: 10px 0;
-            background-color: #333;
-            color: white;
-        }
+    .input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #374151;
+      background: #1f2937;
+      color: #e5e7eb;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            margin-top: 20px;
-        }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #22c55e, #38bdf8);
+      color: #111827;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
 
-        label {
-            margin-bottom: 5px;
-        }
+    .error {
+      color: #f87171;
+      margin-bottom: 12px;
+      display: none;
+    }
 
-        input[type="password"], input[type="submit"] {
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+    #privateContent {
+      display: none;
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 12px;
+      background: #1f2937;
+      border: 1px solid #374151;
+    }
 
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        .video-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .video {
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 4px;
-            background-color: white;
-            margin: 10px 0;
-        }
-    </style>
+    iframe {
+      width: 100%;
+      height: 320px;
+      border-radius: 12px;
+      border: 1px solid #374151;
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
-    <header>
-        <h1>Bienvenue sur ARCHOU.fr</h1>
-    </header>
+  <div class="container">
+    <h1>ARCHOU.fr — Accès Privé</h1>
 
-    <main id="mainContent">
-        <h2>Vidéo disponibles</h2>
-        <div class="video-container">
-            <div class="video">Vidéo 1: Apprendre le HTML</div>
-            <div class="video">Vidéo 2: Développer en JavaScript</div>
-            <div class="video">Vidéo 3: Introduction aux CSS</div>
-        </div>
-    </main>
+    <input type="password" id="passwordInput" class="input" placeholder="Mot de passe">
+    <button class="btn" id="loginBtn">Déverrouiller</button>
 
-    <div id="passwordForm">
-        <p>Ceci est un site privé. Veuillez entrer votre mot de passe pour accéder au contenu.</p>
-        
-        <form onsubmit="return checkPassword(event)">
-            <label for="password">Mot de passe :</label>
-            <input type="password" id="password" name="password" required>
-            <input type="submit" value="Accéder">
-        </form>
+    <div id="errorMsg" class="error">Mot de passe incorrect.</div>
+
+    <div id="privateContent">
+      <h2>Lecteur YouTube ARCHOU</h2>
+      <p>Colle un lien YouTube :</p>
+
+      <input type="text" id="ytLink" class="input" placeholder="https://www.youtube.com/watch?v=XXXX">
+      <button class="btn" id="loadVideoBtn">Charger la vidéo</button>
+
+      <iframe id="ytPlayer" allowfullscreen></iframe>
     </div>
+  </div>
 
-    <footer>
-        <p>Tous droits réservés &copy; 2026 ARCHOU.fr</p>
-    </footer>
+  <script>
+    // Mot de passe
+    const ARCHOU_PASSWORD = "privateGO7899";
 
-    <script>
-        function checkPassword(event) {
-            event.preventDefault(); // Empêche l'envoi du formulaire
+    const loginBtn = document.getElementById("loginBtn");
+    const passwordInput = document.getElementById("passwordInput");
+    const errorMsg = document.getElementById("errorMsg");
+    const privateContent = document.getElementById("privateContent");
 
-            const password = document.getElementById('password').value;
-            const correctPassword = 'Ax87ert';
+    loginBtn.addEventListener("click", () => {
+      if (passwordInput.value === ARCHOU_PASSWORD) {
+        errorMsg.style.display = "none";
+        privateContent.style.display = "block";
+      } else {
+        errorMsg.style.display = "block";
+        privateContent.style.display = "none";
+      }
+    });
 
-            if (password === correctPassword) {
-                document.getElementById('passwordForm').style.display = 'none'; // Cache le formulaire
-                document.getElementById('mainContent').style.display = 'block'; // Affiche le contenu principal
-            } else {
-                alert('Mot de passe incorrect, veuillez réessayer.'); // Alerte pour mot de passe incorrect
-            }
-        }
-    </script>
+    // Lecteur YouTube
+    const ytBtn = document.getElementById("loadVideoBtn");
+    const ytInput = document.getElementById("ytLink");
+    const ytPlayer = document.getElementById("ytPlayer");
+
+    ytBtn.addEventListener("click", () => {
+      const url = ytInput.value.trim();
+      const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+
+      if (!match) {
+        alert("Lien YouTube invalide");
+        return;
+      }
+
+      const videoId = match[1];
+      ytPlayer.src = `https://www.youtube.com/embed/${videoId}`;
+      ytPlayer.style.display = "block";
+    });
+  </script>
 </body>
-
 </html>
