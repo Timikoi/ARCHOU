@@ -1,284 +1,366 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>ARCHOU.eu - MultiOutilsLikma</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #0b0f19;
-      color: #e5e7eb;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
+<meta charset="UTF-8">
+<title>ARCHOU-Tube</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* --- STYLE GLOBAL --- */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0f0f0f;
+  color: #fff;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #181818;
+  border-bottom: 1px solid #333;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 20px;
+}
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg,#22c55e,#38bdf8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #000;
+}
+.search {
+  display: flex;
+  flex: 1;
+  max-width: 500px;
+  margin: 0 20px;
+}
+.search input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 20px 0 0 20px;
+  border: 1px solid #333;
+  background: #121212;
+  color: #fff;
+}
+.search button {
+  padding: 8px 14px;
+  border-radius: 0 20px 20px 0;
+  border: 1px solid #333;
+  background: #272727;
+  color: #fff;
+  cursor: pointer;
+}
+main {
+  padding: 16px;
+}
 
-    .container {
-      width: 100%;
-      max-width: 650px;
-      background: #111827;
-      padding: 24px;
-      border-radius: 16px;
-      border: 1px solid #1f2937;
-      box-shadow: 0 0 40px rgba(0,0,0,0.4);
-    }
+/* --- ACCUEIL --- */
+#home {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+  gap: 16px;
+}
+.video-card {
+  cursor: pointer;
+}
+.video-card img {
+  width: 100%;
+  border-radius: 12px;
+}
+.video-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 6px;
+}
+.video-meta {
+  font-size: 12px;
+  color: #aaa;
+}
 
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, #22c55e, #38bdf8);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
+/* --- PAGE VIDEO --- */
+#watch {
+  display: none;
+}
+.player {
+  width: 100%;
+}
+.player iframe {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: none;
+  border-radius: 12px;
+}
+.actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+.actions button {
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #333;
+  background: #181818;
+  color: #fff;
+  cursor: pointer;
+}
+#comments {
+  margin-top: 20px;
+}
+.comment-item {
+  background: #181818;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
 
-    h2, h3 {
-      margin-top: 0;
-    }
-
-    .input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #374151;
-      background: #1f2937;
-      color: #e5e7eb;
-      margin-bottom: 12px;
-      font-size: 15px;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      background: linear-gradient(135deg, #22c55e, #38bdf8);
-      color: #111827;
-      font-weight: 700;
-      cursor: pointer;
-      margin-bottom: 16px;
-    }
-
-    .error {
-      color: #f87171;
-      margin-bottom: 12px;
-      display: none;
-    }
-
-    #privateContent {
-      display: none;
-      margin-top: 20px;
-      padding: 16px;
-      border-radius: 12px;
-      background: #1f2937;
-      border: 1px solid #374151;
-    }
-
-    iframe {
-      width: 100%;
-      height: 320px;
-      border-radius: 12px;
-      border: 1px solid #374151;
-      display: none;
-      margin-bottom: 16px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .action-btn {
-      flex: 1;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #374151;
-      background: #1f2937;
-      color: #e5e7eb;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .comments {
-      margin-top: 20px;
-      margin-bottom: 16px;
-    }
-
-    .comment {
-      background: #111827;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #374151;
-      margin-bottom: 8px;
-    }
-
-    .channel {
-      margin-top: 10px;
-      padding: 12px;
-      border-radius: 10px;
-      background: #020617;
-      border: 1px solid #374151;
-      font-size: 14px;
-    }
-
-    .channel p {
-      margin: 4px 0;
-    }
-  </style>
+/* --- CHAÎNE --- */
+#channel {
+  display: none;
+}
+.channel-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.channel-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 999px;
+  background: linear-gradient(135deg,#22c55e,#38bdf8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 800;
+  color: #000;
+}
+.channel-info {
+  display: flex;
+  flex-direction: column;
+}
+.channel-videos {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+  gap: 16px;
+}
+</style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>ARCHOU.eu — Accès Privé</h1>
 
-    <input type="password" id="passwordInput" class="input" placeholder="Mot de passe">
-    <button class="btn" id="loginBtn">Déverrouiller</button>
+<header>
+  <div class="logo" onclick="showHome()">
+    <div class="logo-icon">A</div> ARCHOU‑Tube
+  </div>
 
-    <div id="errorMsg" class="error">Mot de passe incorrect.</div>
+  <div class="search">
+    <input id="searchInput" placeholder="Rechercher…">
+    <button onclick="searchVideos()">🔍</button>
+  </div>
 
-    <div id="privateContent">
-      <h2>Lecteur vidéo ARCHOU</h2>
-      <p>Colle un lien vidéo :</p>
+  <button onclick="showChannel()">📺 Chaîne</button>
+</header>
 
-      <input type="text" id="ytLink" class="input" placeholder="https://www.youtube.com/watch?v=XXXX">
-      <button class="btn" id="loadVideoBtn">Charger la vidéo</button>
+<main>
 
-      <iframe id="ytPlayer" allowfullscreen></iframe>
+<!-- ACCUEIL -->
+<div id="home"></div>
 
-      <div class="actions">
-        <button id="likeBtn" class="action-btn">
-          👍 J'aime (<span id="likeCount">0</span>)
-        </button>
-        <button id="subBtn" class="action-btn">
-          🔔 S'abonner
-        </button>
-      </div>
+<!-- PAGE VIDEO -->
+<div id="watch">
+  <div class="player">
+    <iframe id="player"></iframe>
+  </div>
 
-      <div class="comments">
-        <h3>Commentaires</h3>
-        <input type="text" id="commentInput" class="input" placeholder="Écris un commentaire...">
-        <button class="btn" id="sendComment">Envoyer</button>
+  <h2 id="watchTitle"></h2>
+  <p id="watchMeta"></p>
 
-        <div id="commentList"></div>
-      </div>
+  <div class="actions">
+    <button onclick="likeVideo()">👍 J'aime (<span id='likeCount'>0</span>)</button>
+    <button onclick="toggleSub()" id="subBtn">🔔 S'abonner</button>
+  </div>
 
-      <div class="channel">
-        <h3>Espace chaîne ARCHOU</h3>
-        <p>Abonnés : <strong><span id="subCount">0</span></strong></p>
-        <p>Commentaires postés : <strong><span id="commentCount">0</span></strong></p>
-      </div>
+  <div id="comments">
+    <h3>Commentaires</h3>
+    <input id="commentInput" placeholder="Écris un commentaire…" style="width:100%;padding:8px;border-radius:8px;border:none;background:#121212;color:#fff;">
+    <button onclick="addComment()" style="margin-top:6px;padding:8px 12px;border-radius:8px;border:none;background:#22c55e;color:#000;font-weight:700;">Envoyer</button>
+    <div id="commentList"></div>
+  </div>
+</div>
+
+<!-- CHAÎNE -->
+<div id="channel">
+  <div class="channel-header">
+    <div class="channel-avatar">A</div>
+    <div class="channel-info">
+      <h2>Chaîne ARCHOU</h2>
+      <p><strong id="subCount">0</strong> abonnés</p>
+      <p>Chaîne officielle ARCHOU‑Tube</p>
     </div>
   </div>
 
-  <script>
-    // Mot de passe
-    const ARCHOU_PASSWORD = "privateGO7899";
+  <h3 style="margin-top:20px;">Vidéos de la chaîne</h3>
+  <div class="channel-videos" id="channelVideos"></div>
+</div>
 
-    const loginBtn = document.getElementById("loginBtn");
-    const passwordInput = document.getElementById("passwordInput");
-    const errorMsg = document.getElementById("errorMsg");
-    const privateContent = document.getElementById("privateContent");
+</main>
 
-    loginBtn.addEventListener("click", () => {
-      if (passwordInput.value === ARCHOU_PASSWORD) {
-        errorMsg.style.display = "none";
-        privateContent.style.display = "block";
-      } else {
-        errorMsg.style.display = "block";
-        privateContent.style.display = "none";
-      }
-    });
+<script>
+/* --- BASE DE DONNÉES VIDÉOS --- */
+const videos = [
+  {
+    id: "1",
+    title: "ARCHOU présente MultiOutilsLikma",
+    channel: "ARCHOU Officiel",
+    views: "12 345",
+    age: "il y a 2 jours",
+    thumbnail: "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    youtubeId: "dQw4w9WgXcQ"
+  },
+  {
+    id: "2",
+    title: "Setup Dev ARCHOU 2025",
+    channel: "ARCHOU Officiel",
+    views: "8 902",
+    age: "il y a 1 semaine",
+    thumbnail: "https://i.ytimg.com/vi/9bZkp7q19f0/hqdefault.jpg",
+    youtubeId: "9bZkp7q19f0"
+  },
+  {
+    id: "3",
+    title: "Liou.de — Vidéos de Maman",
+    channel: "ARCHOU Family",
+    views: "3 210",
+    age: "il y a 3 jours",
+    thumbnail: "https://i.ytimg.com/vi/3JZ_D3ELwOQ/hqdefault.jpg",
+    youtubeId: "3JZ_D3ELwOQ"
+  }
+];
 
-    // Lecteur YouTube
-    const ytBtn = document.getElementById("loadVideoBtn");
-    const ytInput = document.getElementById("ytLink");
-    const ytPlayer = document.getElementById("ytPlayer");
+/* --- AFFICHAGE ACCUEIL --- */
+function showHome() {
+  document.getElementById("home").style.display = "grid";
+  document.getElementById("watch").style.display = "none";
+  document.getElementById("channel").style.display = "none";
+}
+showHome();
 
-    ytBtn.addEventListener("click", () => {
-      const url = ytInput.value.trim();
-      const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+function loadHome(v = videos) {
+  const home = document.getElementById("home");
+  home.innerHTML = "";
+  v.forEach(video => {
+    home.innerHTML += `
+      <div class="video-card" onclick="watch('${video.id}')">
+        <img src="${video.thumbnail}">
+        <div class="video-title">${video.title}</div>
+        <div class="video-meta">${video.channel} • ${video.views} vues • ${video.age}</div>
+      </div>
+    `;
+  });
+}
+loadHome();
 
-      if (!match) {
-        alert("Lien vidéo invalide");
-        return;
-      }
+/* --- RECHERCHE --- */
+function searchVideos() {
+  const q = document.getElementById("searchInput").value.toLowerCase();
+  const results = videos.filter(v => v.title.toLowerCase().includes(q));
+  loadHome(results);
+}
 
-      const videoId = match[1];
-      ytPlayer.src = `https://`;
-      ytPlayer.style.display = "block";
-    });
+/* --- PAGE VIDEO --- */
+let currentVideo = null;
 
-    // LIKE SYSTEM
-    let likes = parseInt(localStorage.getItem("archou_likes") || "0", 10);
-    const likeCountSpan = document.getElementById("likeCount");
-    likeCountSpan.textContent = likes;
+function watch(id) {
+  currentVideo = videos.find(v => v.id === id);
 
-    document.getElementById("likeBtn").addEventListener("click", () => {
-      likes++;
-      localStorage.setItem("archou_likes", likes);
-      likeCountSpan.textContent = likes;
-    });
+  document.getElementById("home").style.display = "none";
+  document.getElementById("watch").style.display = "block";
+  document.getElementById("channel").style.display = "none";
 
-    // SUBSCRIBE SYSTEM (compteur + état local)
-    let subCount = parseInt(localStorage.getItem("archou_sub_count") || "0", 10);
-    let isSub = localStorage.getItem("archou_is_sub") === "true";
+  document.getElementById("player").src = `https://www.youtube.com/embed/${currentVideo.youtubeId}`;
+  document.getElementById("watchTitle").textContent = currentVideo.title;
+  document.getElementById("watchMeta").textContent = `${currentVideo.views} vues • ${currentVideo.age}`;
 
-    const subBtn = document.getElementById("subBtn");
-    const subCountSpan = document.getElementById("subCount");
+  loadComments();
+  updateLikes();
+  updateSub();
+}
 
-    function updateSubUI() {
-      subBtn.textContent = isSub ? "✔️ Abonné" : "🔔 S'abonner";
-      subCountSpan.textContent = subCount;
-    }
-    updateSubUI();
+/* --- LIKES --- */
+function updateLikes() {
+  const likes = localStorage.getItem("likes_" + currentVideo.id) || 0;
+  document.getElementById("likeCount").textContent = likes;
+}
+function likeVideo() {
+  let likes = localStorage.getItem("likes_" + currentVideo.id) || 0;
+  likes++;
+  localStorage.setItem("likes_" + currentVideo.id, likes);
+  updateLikes();
+}
 
-    subBtn.addEventListener("click", () => {
-      if (!isSub) {
-        isSub = true;
-        subCount++;
-      } else {
-        isSub = false;
-        if (subCount > 0) subCount--;
-      }
-      localStorage.setItem("archou_is_sub", isSub);
-      localStorage.setItem("archou_sub_count", subCount);
-      updateSubUI();
-    });
+/* --- ABONNEMENTS --- */
+function updateSub() {
+  const sub = localStorage.getItem("archou_sub") === "true";
+  document.getElementById("subBtn").textContent = sub ? "✔️ Abonné" : "🔔 S'abonner";
+  document.getElementById("subCount").textContent = sub ? "1" : "0";
+}
+function toggleSub() {
+  const sub = localStorage.getItem("archou_sub") === "true";
+  localStorage.setItem("archou_sub", !sub);
+  updateSub();
+}
 
-    // COMMENTS SYSTEM
-    const commentInput = document.getElementById("commentInput");
-    const commentList = document.getElementById("commentList");
-    const commentCountSpan = document.getElementById("commentCount");
+/* --- COMMENTAIRES --- */
+function loadComments() {
+  const list = document.getElementById("commentList");
+  const comments = JSON.parse(localStorage.getItem("comments_" + currentVideo.id) || "[]");
+  list.innerHTML = comments.map(c => `<div class="comment-item">${c}</div>`).join("");
+}
+function addComment() {
+  const input = document.getElementById("commentInput");
+  const text = input.value.trim();
+  if (!text) return;
 
-    function loadComments() {
-      const comments = JSON.parse(localStorage.getItem("archou_comments") || "[]");
-      commentList.innerHTML = "";
-      comments.forEach(c => {
-        const div = document.createElement("div");
-        div.className = "comment";
-        div.textContent = c;
-        commentList.appendChild(div);
-      });
-      commentCountSpan.textContent = comments.length;
-    }
+  const comments = JSON.parse(localStorage.getItem("comments_" + currentVideo.id) || "[]");
+  comments.push(text);
+  localStorage.setItem("comments_" + currentVideo.id, JSON.stringify(comments));
 
-    loadComments();
+  input.value = "";
+  loadComments();
+}
 
-    document.getElementById("sendComment").addEventListener("click", () => {
-      const text = commentInput.value.trim();
-      if (!text) return;
+/* --- CHAÎNE --- */
+function showChannel() {
+  document.getElementById("home").style.display = "none";
+  document.getElementById("watch").style.display = "none";
+  document.getElementById("channel").style.display = "block";
 
-      const comments = JSON.parse(localStorage.getItem("archou_comments") || "[]");
-      comments.push(text);
-      localStorage.setItem("archou_comments", JSON.stringify(comments));
+  const list = document.getElementById("channelVideos");
+  list.innerHTML = "";
+  videos.forEach(v => {
+    list.innerHTML += `
+      <div class="video-card" onclick="watch('${v.id}')">
+        <img src="${v.thumbnail}">
+        <div class="video-title">${v.title}</div>
+        <div class="video-meta">${v.views} vues • ${v.age}</div>
+      </div>
+    `;
+  });
 
-      commentInput.value = "";
-      loadComments();
-    });
-  </script>
+  updateSub();
+}
+</script>
+
 </body>
 </html>
