@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHOU.fr</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            display: none; /* Cache par défaut */
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: white;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input[type="password"], input[type="submit"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .video-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .video {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: white;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Bienvenue sur ARCHOU.fr</h1>
+    </header>
+
+    <main id="mainContent">
+        <h2>Vidéo disponibles</h2>
+        <div class="video-container">
+            <div class="video">Vidéo 1: Apprendre le HTML</div>
+            <div class="video">Vidéo 2: Développer en JavaScript</div>
+            <div class="video">Vidéo 3: Introduction aux CSS</div>
+        </div>
+    </main>
+
+    <div id="passwordForm">
+        <p>Ceci est un site privé. Veuillez entrer votre mot de passe pour accéder au contenu.</p>
+        
+        <form onsubmit="return checkPassword(event)">
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" required>
+            <input type="submit" value="Accéder">
+        </form>
+    </div>
+
+    <footer>
+        <p>Tous droits réservés &copy; 2026 ARCHOU.fr</p>
+    </footer>
+
+    <script>
+        function checkPassword(event) {
+            event.preventDefault(); // Empêche l'envoi du formulaire
+
+            const password = document.getElementById('password').value;
+            const correctPassword = 'Ax87ert';
+
+            if (password === correctPassword) {
+                document.getElementById('passwordForm').style.display = 'none'; // Cache le formulaire
+                document.getElementById('mainContent').style.display = 'block'; // Affiche le contenu principal
+            } else {
+                alert('Mot de passe incorrect, veuillez réessayer.'); // Alerte pour mot de passe incorrect
+            }
+        }
+    </script>
+</body>
+
+</html>
